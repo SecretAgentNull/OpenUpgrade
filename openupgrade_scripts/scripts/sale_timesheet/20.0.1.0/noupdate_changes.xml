@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <data noupdate="1">
+        <!-- Mirrors sale_timesheet/data/mail_template_data.xml, which 20.0 loads
+             after the invoice email templates already exist, so a plain upgrade
+             never applies it (noupdate records of another module are skipped). -->
+        <record id="account.email_template_edi_invoice" model="mail.template">
+            <field name="report_template_ids" eval="[Command.link(ref('sale_timesheet.timesheet_report_account_move'))]"/>
+        </record>
+        <record id="account.email_template_edi_self_billing_invoice" model="mail.template">
+            <field name="report_template_ids" eval="[Command.link(ref('sale_timesheet.timesheet_report_account_move'))]"/>
+        </record>
+    </data>
+</odoo>

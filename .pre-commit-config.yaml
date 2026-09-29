@@ -140,7 +140,15 @@ repos:
         args:
           - --rcfile=.pylintrc
           - --exit-zero
+        # module_graph.py monkey patches ModuleGraph from a module level function,
+        # and the `self._cr` there makes pylint-odoo v10.0.11 visit an attribute
+        # outside a class body: F0002 astroid-error, AttributeError
+        # 'OdooAddons' object has no attribute 'class_odoo_models'. The crash also
+        # happens on the untouched 19.0 file, so it is a plugin bug; drop this
+        # exclude once pylint-odoo handles module level patches.
+        exclude: ^openupgrade_framework/odoo_patch/odoo/modules/module_graph\.py$
         verbose: true
       - id: pylint_odoo
         args:
           - --rcfile=.pylintrc-mandatory
+        exclude: ^openupgrade_framework/odoo_patch/odoo/modules/module_graph\.py$
